@@ -15,12 +15,6 @@
         "jest": true,
         "es6": true
     },
-    "globals": {
-        "page": true,
-        "extensions": true,
-        "runSetup": true,
-        "visualCheck": true
-    },
     "parserOptions": {
         "ecmaVersion": 8
     }

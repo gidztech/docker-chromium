@@ -1,11 +1,23 @@
-const path = require('path');
 const request = require('request-promise-native');
-const { readFileSync, writeFileSync } = require('fs');
+
+const { getConfig } = require('./config');
+
+const {
+    dockerComposePath,
+    dockerFilePath,
+    alternativeDockerFilePath
+} = getConfig();
+
+const { promisify } = require('util');
+const fs = require('fs');
+
+const readFile = promisify(fs.readFile);
+const writeFile = promisify(fs.writeFile);
+
 const { CONSOLE_PREFIX, runCommand } = require('./utils');
 
 require('colors');
 
-const composePath = path.join(__dirname, './docker-compose.yml');
 let serviceToBuild = 'chromium';
 
 const dockerBuild = async () => {
@@ -14,7 +26,7 @@ const dockerBuild = async () => {
         console.log(`${CONSOLE_PREFIX} Building Docker image...`.green);
         await runCommand('docker-compose', [
             '-f',
-            `"${composePath}"`,
+            `"${dockerComposePath}"`,
             'build',
             `--build-arg CHROMIUM_ADDITIONAL_ARGS="${process.env
                 .CHROMIUM_ADDITIONAL_ARGS || '[]'}"`,
@@ -58,7 +70,7 @@ const dockerUp = async () => {
         console.log(`${CONSOLE_PREFIX} Starting Docker container...`.green);
         await runCommand('docker-compose', [
             '-f',
-            `"${composePath}"`,
+            `"${dockerComposePath}"`,
             'up',
             '-d',
             serviceToBuild
@@ -78,7 +90,11 @@ const dockerDown = async () => {
         console.log(
             `${CONSOLE_PREFIX} Shutting down Docker container...`.green
         );
-        await runCommand('docker-compose', ['-f', `"${composePath}"`, 'down']);
+        await runCommand('docker-compose', [
+            '-f',
+            `"${dockerComposePath}"`,
+            'down'
+        ]);
         console.log(
             `${CONSOLE_PREFIX} Successfully shut down Docker container`.green
         );
@@ -119,22 +135,20 @@ const contactChromium = async ({ config, maxAttempts }) => {
     return tryRequest();
 };
 
-const dockerSetChromiumVersion = revision => {
-    const dockerFilePath = path.join(__dirname, './Dockerfile');
-    const alternativeDockerFilePath = path.join(__dirname, './Dockerfile2');
+const dockerSetChromiumVersion = async revision => {
     const latestTag = `rev-${revision}`;
 
     // patch Dockerfile
-    let data = readFileSync(dockerFilePath, { encoding: 'utf-8' });
+    let data = await readFile(dockerFilePath, { encoding: 'utf-8' });
     let previousTag = data.match(/:(.*)/)[1]; // get everything after : on same line
     let newData = data.replace(previousTag, latestTag);
-    writeFileSync(dockerFilePath, newData, { encoding: 'utf-8' });
+    await writeFile(dockerFilePath, newData, { encoding: 'utf-8' });
 
     // patch Dockerfile2 (alternative)
-    data = readFileSync(alternativeDockerFilePath, { encoding: 'utf-8' });
+    data = await readFile(alternativeDockerFilePath, { encoding: 'utf-8' });
     previousTag = data.match(/REV=(.*)/)[1]; // get everything after revision on same line
     newData = data.replace(previousTag, revision);
-    writeFileSync(alternativeDockerFilePath, newData, { encoding: 'utf-8' });
+    await writeFile(alternativeDockerFilePath, newData, { encoding: 'utf-8' });
 };
 
 const dockerRun = async () => {
@@ -159,7 +173,7 @@ const dockerRun = async () => {
 };
 
 module.exports = {
-    dockerShutdownChromium: dockerDown,
+    dockerSetChromiumVersion,
     dockerRunChromium: dockerRun,
-    dockerSetChromiumVersion
+    dockerShutdownChromium: dockerDown
 };
