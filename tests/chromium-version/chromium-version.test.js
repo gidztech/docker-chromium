@@ -8,8 +8,8 @@ const alternativeDockerFilePath = path.join(__dirname, './config/Dockerfile2');
 describe('chromiumVersion', async () => {
     it('updates both docker files with the correct tag versions', async () => {
         // setup getConfig mock in config module
-        jest.mock('../../config');
-        const config = require('../../config');
+        jest.mock('../../src/config');
+        const config = require('../../src/config');
 
         config.getConfig.mockImplementation(() => ({
             dockerComposePath,
@@ -18,7 +18,7 @@ describe('chromiumVersion', async () => {
         }));
 
         // app code
-        const { dockerSetChromiumConfig } = require('../../index');
+        const { dockerSetChromiumConfig } = require('../../lib/index');
         await dockerSetChromiumConfig({ revision: '123456' });
 
         const dockerFile1Data = fs

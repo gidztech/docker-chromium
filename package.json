@@ -2,7 +2,7 @@
     "name": "docker-chromium",
     "version": "1.0.0",
     "description": "Node library for controlling a Chromium instance running in a Docker container",
-    "main": "index.js",
+    "main": "lib/index.js",
     "scripts": {
         "lint": "eslint **/*.js --fix --ignore-pattern node_modules",
         "prettier": "prettier --write --single-quote --tab-width=4 */**.js",
