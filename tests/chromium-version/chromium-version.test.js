@@ -18,8 +18,8 @@ describe('chromiumVersion', async () => {
         }));
 
         // app code
-        const { dockerSetChromiumVersion } = require('../../index');
-        await dockerSetChromiumVersion('123456');
+        const { dockerSetChromiumConfig } = require('../../index');
+        await dockerSetChromiumConfig({ revision: '123456' });
 
         const dockerFile1Data = fs
             .readFileSync(dockerFilePath, {

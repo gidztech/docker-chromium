@@ -1,5 +1,5 @@
 const path = require('path');
-const { dockerRunChromium } = require('../../index');
+const { dockerSetChromiumConfig, dockerRunChromium } = require('../../index');
 
 const dockerComposePath = path.join(__dirname, './config/docker-compose.yml');
 const dockerFilePath = path.join(__dirname, './config/Dockerfile');
@@ -20,6 +20,9 @@ describe('runContainer', async () => {
         jest.setTimeout(120000); // give it 2 minutes to download image/run container
 
         // app code
+        await dockerSetChromiumConfig({
+            flags: [' -–ignore-certificate-errors']
+        });
         const webSocketUri = await dockerRunChromium();
 
         // assertions

@@ -19,6 +19,7 @@ const { CONSOLE_PREFIX, runCommand } = require('./utils');
 require('colors');
 
 let serviceToBuild = 'chromium';
+let chromiumAdditionalArgs;
 
 const dockerBuild = async () => {
     let hasTriedAlternative = false;
@@ -28,8 +29,7 @@ const dockerBuild = async () => {
             '-f',
             `"${dockerComposePath}"`,
             'build',
-            `--build-arg CHROMIUM_ADDITIONAL_ARGS="${process.env
-                .CHROMIUM_ADDITIONAL_ARGS || '[]'}"`,
+            `--build-arg CHROMIUM_ADDITIONAL_ARGS="${chromiumAdditionalArgs}"`,
             '--pull',
             serviceToBuild
         ]);
@@ -135,20 +135,27 @@ const contactChromium = async ({ config, maxAttempts }) => {
     return tryRequest();
 };
 
-const dockerSetChromiumVersion = async revision => {
-    const latestTag = `rev-${revision}`;
+const dockerConfig = async ({ flags, revision }) => {
+    chromiumAdditionalArgs = flags || process.env.CHROMIUM_ADDITIONAL_ARGS;
+    if (revision) {
+        const latestTag = `rev-${revision}`;
 
-    // patch Dockerfile
-    let data = await readFile(dockerFilePath, { encoding: 'utf-8' });
-    let previousTag = data.match(/:(.*)/)[1]; // get everything after : on same line
-    let newData = data.replace(previousTag, latestTag);
-    await writeFile(dockerFilePath, newData, { encoding: 'utf-8' });
+        // patch Dockerfile
+        let data = await readFile(dockerFilePath, { encoding: 'utf-8' });
+        let previousTag = data.match(/:(.*)/)[1]; // get everything after : on same line
+        let newData = data.replace(previousTag, latestTag);
+        await writeFile(dockerFilePath, newData, { encoding: 'utf-8' });
 
-    // patch Dockerfile2 (alternative)
-    data = await readFile(alternativeDockerFilePath, { encoding: 'utf-8' });
-    previousTag = data.match(/REV=(.*)/)[1]; // get everything after revision on same line
-    newData = data.replace(previousTag, revision);
-    await writeFile(alternativeDockerFilePath, newData, { encoding: 'utf-8' });
+        // patch Dockerfile2 (alternative)
+        data = await readFile(alternativeDockerFilePath, { encoding: 'utf-8' });
+        previousTag = data.match(/REV=(.*)/)[1]; // get everything after revision on same line
+        newData = data.replace(previousTag, revision);
+        await writeFile(alternativeDockerFilePath, newData, {
+            encoding: 'utf-8'
+        });
+    } else {
+        return null;
+    }
 };
 
 const dockerRun = async () => {
@@ -173,7 +180,7 @@ const dockerRun = async () => {
 };
 
 module.exports = {
-    dockerSetChromiumVersion,
+    dockerSetChromiumConfig: dockerConfig,
     dockerRunChromium: dockerRun,
     dockerShutdownChromium: dockerDown
 };
