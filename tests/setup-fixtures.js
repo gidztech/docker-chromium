@@ -7,8 +7,13 @@ const setupChromiumVersionFixtures = () => {
     if (!existsSync(configPath)) {
         mkdirSync(configPath);
     }
+
     copyFileSync(`${dockerPath}/Dockerfile`, `${configPath}/Dockerfile`);
-    copyFileSync(`${dockerPath}/Dockerfile2`, `${configPath}/Dockerfile2`);
+
+    copyFileSync(
+        `${dockerPath}/Dockerfile_build`,
+        `${configPath}/Dockerfile_build`
+    );
 };
 
 const setupRunContainerFixtures = () => {
@@ -22,9 +27,16 @@ const setupRunContainerFixtures = () => {
         `${dockerPath}/docker-compose.yml`,
         `${configPath}/docker-compose.yml`
     );
-    copyFileSync(`${dockerPath}/Dockerfile`, `${configPath}/Dockerfile2`);
-    copyFileSync(`${dockerPath}/Dockerfile2`, `${configPath}/entrypoint.sh`);
+
+    copyFileSync(`${dockerPath}/Dockerfile`, `${configPath}/Dockerfile`);
+
+    copyFileSync(
+        `${dockerPath}/Dockerfile_build`,
+        `${configPath}/Dockerfile_build`
+    );
+
     copyFileSync(`${dockerPath}/entrypoint.sh`, `${configPath}/entrypoint.sh`);
+
     copyFileSync(
         `${dockerPath}/import_cert.sh`,
         `${configPath}/import_cert.sh`

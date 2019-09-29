@@ -6,7 +6,10 @@ const {
 
 const dockerComposePath = path.join(__dirname, './config/docker-compose.yml');
 const dockerFilePath = path.join(__dirname, './config/Dockerfile');
-const alternativeDockerFilePath = path.join(__dirname, './config/Dockerfile2');
+const alternativeDockerFilePath = path.join(
+    __dirname,
+    './config/Dockerfile_build'
+);
 
 describe('runContainer', async () => {
     it('runs container and provides websocket uri', async () => {

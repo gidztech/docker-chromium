@@ -6,3 +6,5 @@
 npm-debug.log
 node_modules
 wsEndpoint
+tests/chromium-version/config
+tests/run-container/config

@@ -1,3 +1,3 @@
 module.exports = {
-    silent: true
+    silent: false
 };
