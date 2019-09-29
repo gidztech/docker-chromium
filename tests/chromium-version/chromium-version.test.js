@@ -3,7 +3,10 @@ const path = require('path');
 
 const dockerComposePath = path.join(__dirname, './config/docker-compose.yml');
 const dockerFilePath = path.join(__dirname, './config/Dockerfile');
-const alternativeDockerFilePath = path.join(__dirname, './config/Dockerfile2');
+const alternativeDockerFilePath = path.join(
+    __dirname,
+    './config/Dockerfile_build'
+);
 
 describe('chromiumVersion', async () => {
     it('updates both docker files with the correct tag versions', async () => {

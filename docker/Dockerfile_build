@@ -1,6 +1,6 @@
 FROM ubuntu:14.04
 
-ENV REV=123456
+ENV REV=599821
 EXPOSE 9222
 
 ARG CHROMIUM_ADDITIONAL_ARGS
@@ -27,9 +27,9 @@ RUN wget -q -O chrome.zip https://commondatastorage.googleapis.com/chromium-brow
 
 RUN google-chrome-unstable --version
 
-RUN mkdir /data
-VOLUME /data
-ENV HOME=/data DEBUG_ADDRESS=0.0.0.0 DEBUG_PORT=9222
+RUN mkdir /home/chromium
+VOLUME /home/chromium
+ENV HOME=/home/chromium DEBUG_ADDRESS=0.0.0.0 DEBUG_PORT=9222
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 CMD ["/usr/bin/entrypoint.sh"]

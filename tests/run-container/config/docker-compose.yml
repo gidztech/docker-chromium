@@ -5,14 +5,12 @@ services:
       context: ./
       dockerfile: Dockerfile
     shm_size: '1gb'
-    cap_add: ['NET_ADMIN', 'NET_RAW']
     ports:
       - '9222:9222'
-  chromium_alternative:
+  chromium_build:
     build:
       context: ./
-      dockerfile: Dockerfile2
+      dockerfile: Dockerfile_build
     shm_size: '1gb'
-    cap_add: ['NET_ADMIN', 'NET_RAW']
     ports:
       - '9222:9222'

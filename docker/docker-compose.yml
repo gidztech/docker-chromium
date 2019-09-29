@@ -7,10 +7,10 @@ services:
     shm_size: '1gb'
     ports:
       - '9222:9222'
-  chromium_alternative:
+  chromium_build:
     build:
       context: ./
-      dockerfile: Dockerfile2
+      dockerfile: Dockerfile_build
     shm_size: '1gb'
     ports:
       - '9222:9222'

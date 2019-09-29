@@ -1,34 +1,21 @@
-const { existsSync, mkdirSync, copyFileSync } = require('fs');
+const { copySync } = require('fs-extra');
 const dockerPath = './docker';
 
 const setupChromiumVersionFixtures = () => {
-    const configPath = './tests/chromium-version/config';
+    const filterFunc = src => {
+        if (src !== 'docker/Dockerfile' || src !== 'docker/Dockerfile_build') {
+            return false;
+        }
+        return true;
+    };
 
-    if (!existsSync(configPath)) {
-        mkdirSync(configPath);
-    }
-    copyFileSync(`${dockerPath}/Dockerfile`, `${configPath}/Dockerfile`);
-    copyFileSync(`${dockerPath}/Dockerfile2`, `${configPath}/Dockerfile2`);
+    const configPath = './tests/chromium-version/config';
+    copySync(dockerPath, configPath, { filter: filterFunc });
 };
 
 const setupRunContainerFixtures = () => {
     const configPath = './tests/run-container/config';
-
-    if (!existsSync(configPath)) {
-        mkdirSync(configPath);
-    }
-
-    copyFileSync(
-        `${dockerPath}/docker-compose.yml`,
-        `${configPath}/docker-compose.yml`
-    );
-    copyFileSync(`${dockerPath}/Dockerfile`, `${configPath}/Dockerfile2`);
-    copyFileSync(`${dockerPath}/Dockerfile2`, `${configPath}/entrypoint.sh`);
-    copyFileSync(`${dockerPath}/entrypoint.sh`, `${configPath}/entrypoint.sh`);
-    copyFileSync(
-        `${dockerPath}/import_cert.sh`,
-        `${configPath}/import_cert.sh`
-    );
+    copySync(dockerPath, configPath);
 };
 
 setupChromiumVersionFixtures();

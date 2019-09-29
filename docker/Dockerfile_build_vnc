@@ -1,6 +1,6 @@
-FROM ubuntu:14.04
+FROM dorowu/ubuntu-desktop-lxde-vnc:trusty
 
-ENV REV=599821
+ENV REV=637110
 EXPOSE 9222
 
 ARG CHROMIUM_ADDITIONAL_ARGS
@@ -8,6 +8,8 @@ ENV CHROMIUM_ADDITIONAL_ARGS=${CHROMIUM_ADDITIONAL_ARGS}
 
 ADD entrypoint.sh /usr/bin/entrypoint.sh
 ADD import_cert.sh /usr/bin/
+
+RUN chmod +x /usr/bin/import_cert.sh
 
 RUN apt-get update -qqy \
   && apt-get -qqy install libnss3 libnss3-tools libfontconfig1 wget ca-certificates apt-transport-https inotify-tools unzip \
@@ -20,6 +22,7 @@ RUN wget https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.
 	&& dpkg -i dumb-init_*.deb \
 	&& rm dumb-init_1.2.0_amd64.deb
 
+
 RUN wget -q -O chrome.zip https://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/$REV/chrome-linux.zip \
   && unzip chrome.zip \
   && rm chrome.zip \
@@ -27,10 +30,20 @@ RUN wget -q -O chrome.zip https://commondatastorage.googleapis.com/chromium-brow
 
 RUN google-chrome-unstable --version
 
-RUN mkdir /data
-VOLUME /data
-ENV HOME=/data DEBUG_ADDRESS=0.0.0.0 DEBUG_PORT=9222
+RUN useradd -ou 0 -g 0 chromium
 
-ENTRYPOINT ["/usr/bin/dumb-init", "--"]
-CMD ["/usr/bin/entrypoint.sh"]
+VOLUME ["/home/chromium"]
+
+ENV HOME=/home/chromium DEBUG_ADDRESS=0.0.0.0 DEBUG_PORT=9222
+
+RUN echo '\n[program:chromium]\n\
+priority=10\n\
+startsecs=0\n\
+environment=HOME="/home/chromium",DISPLAY=":1",USER="chromium"\n\
+user=chromium\n\
+stderr_logfile=/dev/stderr\n\
+stderr_logfile_maxbytes=0\n\
+command=/usr/bin/entrypoint.sh'\
+>> /etc/supervisor/conf.d/supervisord.conf
+
 LABEL maintainer="info@alpeware.com"
