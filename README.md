@@ -38,3 +38,7 @@ const {
 ## How it works
 
 `docker-chromium` pulls a pre-built Docker image running a version of Chromium specified by you from a Docker Hub repository. You can then fetch the WebSocket URI to connect to the instance in your own application. If the pre-built image is unavailable or corrupt (rare case), a backup mechanism is in place, which builds the image from scratch locally instead.
+
+### Update
+
+Due to Ubuntu 14.04 LTS transitioning to ESM support, we have had to upgrade the Ubuntu version to 18.04 LTS. The Dockerfile used in the pre-built version in Docker Hub remains on the old version. Until this is changed, we have to disable this option for the time being.

@@ -6,7 +6,6 @@ const {
 
 const dockerComposePath = path.join(__dirname, './config/docker-compose.yml');
 const dockerFilePath = path.join(__dirname, './config/Dockerfile');
-const alternativeDockerFilePath = path.join(__dirname, './config/Dockerfile2');
 
 describe('runContainer', async () => {
     it('runs container and provides websocket uri', async () => {
@@ -16,16 +15,16 @@ describe('runContainer', async () => {
 
         config.getConfig.mockImplementation(() => ({
             dockerComposePath,
-            dockerFilePath,
-            alternativeDockerFilePath
+            dockerFilePath
         }));
 
-        jest.setTimeout(120000); // give it 2 minutes to download image/run container
+        jest.setTimeout(300000); // give it 5 minutes to download image/run container
 
         // app code
         await dockerSetChromiumConfig({
             flags: [' -–ignore-certificate-errors']
         });
+
         const webSocketUri = await dockerRunChromium();
 
         // assertions

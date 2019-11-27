@@ -3,7 +3,6 @@ const path = require('path');
 
 const dockerComposePath = path.join(__dirname, './config/docker-compose.yml');
 const dockerFilePath = path.join(__dirname, './config/Dockerfile');
-const alternativeDockerFilePath = path.join(__dirname, './config/Dockerfile2');
 
 describe('chromiumVersion', async () => {
     it('updates both docker files with the correct tag versions', async () => {
@@ -13,30 +12,19 @@ describe('chromiumVersion', async () => {
 
         config.getConfig.mockImplementation(() => ({
             dockerComposePath,
-            dockerFilePath,
-            alternativeDockerFilePath
+            dockerFilePath
         }));
 
         // app code
         const { dockerSetChromiumConfig } = require('../../lib/index');
         await dockerSetChromiumConfig({ revision: '123456' });
 
-        const dockerFile1Data = fs
+        const dockerFileData = fs
             .readFileSync(dockerFilePath, {
-                encoding: 'utf-8'
-            })
-            .split('\n')[0];
-
-        const dockerFile2Data = fs
-            .readFileSync(alternativeDockerFilePath, {
                 encoding: 'utf-8'
             })
             .split('\n')[2];
 
-        // assertions
-        expect(dockerFile1Data).toEqual(
-            'FROM alpeware/chrome-headless-trunk:rev-123456'
-        );
-        expect(dockerFile2Data).toEqual('ENV REV=123456');
+        expect(dockerFileData).toEqual('ENV REV=123456');
     });
 });
