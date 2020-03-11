@@ -35,6 +35,16 @@ const {
 })();
 ```
 
+Default is trying to connect to Chromium 5 times with a 500 milisecond interval between each attempt. You can customize timeout/attempts:
+
+```javascript
+// ...
+const webSocketUri = await dockerRunChromium({
+    maxAttempts: 10,
+    retryInterval: 5000 // 5 seconds
+});
+```
+
 ## How it works
 
 `docker-chromium` pulls a pre-built Docker image running a version of Chromium specified by you from a Docker Hub repository. You can then fetch the WebSocket URI to connect to the instance in your own application. If the pre-built image is unavailable or corrupt (rare case), a backup mechanism is in place, which builds the image from scratch locally instead.
