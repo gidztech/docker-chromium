@@ -35,7 +35,7 @@ const {
 })();
 ```
 
-Default is trying to connect to Chromium 5 times with a 500 milisecond interval between each attempt. You can customize timeout/attempts:
+Default is trying to connect to Chromium 5 times with a 500 milisecond interval between each attempt. You can customize timeout/attempts by passing arguments to `dockerRunChromium`:
 
 ```javascript
 // ...
@@ -44,6 +44,8 @@ const webSocketUri = await dockerRunChromium({
     retryInterval: 5000 // 5 seconds
 });
 ```
+
+Or by defining environment variables `DOCKER_CHROMIUM_MAX_ATTEMPTS` and `DOCKER_CHROMIUM_RETRY_INTERVAL`. Passing arguments to `dockerRunChromium` takes precedence over environment variables.
 
 ## How it works
 
