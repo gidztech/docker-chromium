@@ -1,3 +1,4 @@
 module.exports = {
-    silent: true
+    silent: true,
+    resetMocks: true
 };

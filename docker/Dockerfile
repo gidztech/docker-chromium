@@ -1,6 +1,5 @@
 FROM ubuntu:18.04
 
-ENV REV=599821
 EXPOSE 9222
 
 ARG CHROMIUM_ADDITIONAL_ARGS
@@ -20,8 +19,9 @@ RUN wget https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.
   && dpkg -i dumb-init_*.deb \
   && rm dumb-init_1.2.0_amd64.deb
 
+ARG CHROMIUM_REVISION
 ARG CHROMIUM_DOWNLOAD_HOST
-RUN wget -q -O chrome.zip $CHROMIUM_DOWNLOAD_HOST/chromium-browser-snapshots/Linux_x64/$REV/chrome-linux.zip \
+RUN wget -q -O chrome.zip $CHROMIUM_DOWNLOAD_HOST/chromium-browser-snapshots/Linux_x64/$CHROMIUM_REVISION/chrome-linux.zip \
   && unzip chrome.zip \
   && rm chrome.zip \
   && ln -s $PWD/chrome-linux/chrome /usr/bin/google-chrome-unstable
