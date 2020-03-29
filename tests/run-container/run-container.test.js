@@ -3,7 +3,7 @@ const {
     dockerRunChromium
 } = require('../../lib/index');
 
-describe('runContainer', async () => {
+describe('runContainer', () => {
     it('runs container and provides websocket uri', async () => {
         dockerSetChromiumConfig({
             flags: [' -–ignore-certificate-errors'],
