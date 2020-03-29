@@ -1,9 +1,14 @@
 const {
     dockerSetChromiumConfig,
-    dockerRunChromium
+    dockerRunChromium,
+    dockerShutdownChromium
 } = require('../../lib/index');
 
 describe('runContainer', () => {
+    afterAll(async () => {
+        await dockerShutdownChromium();
+    });
+
     it('runs container and provides websocket uri', async () => {
         dockerSetChromiumConfig({
             flags: [' -–ignore-certificate-errors'],
