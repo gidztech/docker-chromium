@@ -7,7 +7,7 @@
         "lint": "eslint **/*.js --fix --ignore-pattern node_modules",
         "prettier": "prettier --write --single-quote --tab-width=4 */**.js",
         "precommit": "lint-staged",
-        "test": "node tests/setup-fixtures.js && jest"
+        "test": "jest"
     },
     "lint-staged": {
         "*.js": [
@@ -26,6 +26,8 @@
     },
     "homepage": "https://github.com/gidztech/docker-chromium#readme",
     "devDependencies": {
+        "@babel/preset-env": "^7.9.0",
+        "babel-jest": "^25.2.3",
         "eslint": "^5.10.0",
         "eslint-config-prettier": "^3.3.0",
         "eslint-plugin-prettier": "^3.0.0",
