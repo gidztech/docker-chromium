@@ -59,7 +59,7 @@ Due to Ubuntu 14.04 LTS transitioning to ESM support, we have had to upgrade the
 
 ### dockerSetChromiumConfig
 
-Function which is used to configuration of chromium, before when we run it by ``dockerRunChromium`` function.
+Function which is used for the configuration of Chromium, before running it with ``dockerRunChromium``.
 
 ##### Example of usage
 
@@ -74,7 +74,7 @@ await dockerSetChromiumConfig({
 
 - ``revision: string``
     - **Required**
-    - Describes number of version for chromium
+    - Describes version number for Chromium
     
 - ``flags: string[]``
     - *Optional*
@@ -90,7 +90,7 @@ await dockerSetChromiumConfig({
 
 ### dockerRunChromium
 
-Function which is used to build and run docker image with downloaded and configured Chromium.
+Function which is used to build and run the Docker container.
 
 ##### Example of usage
 
@@ -106,22 +106,22 @@ const webSocketUri = await dockerRunChromium({
 - ``maxAttempts: number``
     - *Optional*
     - *Defaults* to 5
-    - Describes number of attempts of connections to Chromium in launched docker.
+    - Describes number of attempts to connect to Chromium in the launched container (sometimes it fails).
     
 - ``retryInterval: number``
     - *Optional*
     - *Defaults* to 500
-    - Describes number of milliseconds between attempts of connections to Chromium in launched docker.
+    - Describes number of milliseconds between attempts to connect to Chromium in the launched container.
     
 ##### Returns
 
 - ``Promise<string>``
-    - Returns web socket URI to launched Chromium in docker.
-    - By this URI we can connect to Chromium and control it.
+    - Returns web socket URI to the launched Chromium in the container.
+    - By using this URI we can connect to Chromium and control it.
     
 ### dockerShutdownChromium
 
-Function which is used to shutdown launched docker with Chromium.
+Function which is used to shutdown the launched Docker container.
 
 ##### Example of usage
 
