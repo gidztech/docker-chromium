@@ -17,7 +17,7 @@ RUN apt-get update -qqy \
   
 ARG CHROMIUM_REVISION
 ARG CHROMIUM_DOWNLOAD_HOST
-RUN wget -q -O chrome.zip $CHROMIUM_DOWNLOAD_HOST/chromium-browser-snapshots/Linux_x64/$CHROMIUM_REVISION/chrome-linux.zip \
+RUN wget --no-check-certificate -q -O chrome.zip $CHROMIUM_DOWNLOAD_HOST/chromium-browser-snapshots/Linux_x64/$CHROMIUM_REVISION/chrome-linux.zip \
   && unzip chrome.zip \
   && rm chrome.zip \
   && ln -s $PWD/chrome-linux/chrome /usr/bin/google-chrome-unstable
