@@ -1,14 +1,29 @@
-const { promisify } = require('util');
-const exec = promisify(require('child_process').exec);
+const spawn = require('child_process').spawn;
 
 module.exports = {
-    runCommand: async (command, args) => {
-        const { stdout, stderr } = await exec(`${command} ${args.join(' ')}`);
+    runCommand: (command, args) =>
+        new Promise((resolve, reject) => {
+            const runCommand = spawn(command, args);
 
-        console.log(stdout);
-        console.log(stderr);
+            runCommand.stdout.on('data', data => {
+                console.log(data.toString());
+            });
 
-        return stdout;
-    },
+            runCommand.stderr.on('data', data => {
+                console.log(data.toString());
+            });
+
+            runCommand.on('error', error => {
+                reject(error);
+            });
+
+            runCommand.on('exit', exitCode => {
+                if (exitCode === 0) {
+                    resolve(exitCode);
+                } else {
+                    reject(exitCode);
+                }
+            });
+        }),
     CONSOLE_PREFIX: 'Docker Chromium:'
 };
