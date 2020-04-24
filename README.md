@@ -1,6 +1,6 @@
 # docker-chromium
 
-[![Build Status](https://travis-ci.org/gidztech/docker-chromium.svg?branch=master)](https://travis-ci.org/gidztech/docker-chromium)
+![Tests](https://github.com/gidztech/docker-chromium/workflows/Tests/badge.svg)
 **Node library for controlling a Chromium instance running in a Docker container**
 
 [![NPM](https://nodei.co/npm/docker-chromium.png)](https://www.npmjs.com/package/docker-chromium)
