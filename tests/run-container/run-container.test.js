@@ -15,7 +15,7 @@ describe('runContainer', () => {
             revision: 754306
         });
 
-        const webSocketUri = await dockerRunChromium();
+        const webSocketUri = await dockerRunChromium('some random change');
 
         expect(webSocketUri).toContain('ws://');
     }, 300000);
