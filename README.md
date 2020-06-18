@@ -59,34 +59,38 @@ Due to Ubuntu 14.04 LTS transitioning to ESM support, we have had to upgrade the
 
 ### dockerSetChromiumConfig
 
-Function which is used for the configuration of Chromium, before running it with ``dockerRunChromium``.
+Function which is used for the configuration of Chromium, before running it with `dockerRunChromium`.
 
 ##### Example of usage
 
 ```javascript
 await dockerSetChromiumConfig({
-        revision: "123456",
-        flags: [' -–ignore-certificate-errors'],
-    });
+    revision: '123456',
+    flags: [' -–ignore-certificate-errors']
+});
 ```
 
 ##### Arguments
 
-- ``revision: string``
-    - **Required**
-    - Describes version number for Chromium
-    
-- ``flags: string[]``
-    - *Optional*
-    - *Defaults* to ``process.env.CHROMIUM_ADDITIONAL_ARGS``
-    - Describes command line flags that Chromium accepts.
-    
-- ``downloadHost: string``
-    - *Optional*
-    - *Defaults* to ``process.env.PUPPETEER_DOWNLOAD_HOST || process.env.npm_config_puppeteer_download_host || process.env.npm_package_config_puppeteer_download_host || 'https://storage.googleapis.com'``
-    - Describes host address for downloading of Chromium.
-    - Describes only the beginning of address, like this rule: ``$CHROMIUM_DOWNLOAD_HOST/chromium-browser-snapshots/Linux_x64/$REV/chrome-linux.zip`` - ``$CHROMIUM_DOWNLOAD_HOST`` describes ``downloadHost`` argument
-    - Example: If we run ``dockerSetChromiumConfig({downloadHost: 'https://internal.service.com, revision: 99999})``, it means that Chromium snapshot will be downloaded from *https://internal.service.com/chromium-browser-snapshots/Linux_x64/99999/chrome-linux.zip*
+-   `revision: string`
+    -   **Required**
+    -   Describes version number for Chromium
+-   `flags: string[]`
+    -   _Optional_
+    -   _Defaults_ to `process.env.CHROMIUM_ADDITIONAL_ARGS`
+    -   Describes command line flags that Chromium accepts.
+-   `downloadHost: string`
+
+    -   _Optional_
+    -   _Defaults_ to `process.env.PUPPETEER_DOWNLOAD_HOST || process.env.npm_config_puppeteer_download_host || process.env.npm_package_config_puppeteer_download_host || 'https://storage.googleapis.com'`
+    -   Describes host address for downloading of Chromium.
+    -   Describes only the beginning of address, like this rule: `$CHROMIUM_DOWNLOAD_HOST/chromium-browser-snapshots/Linux_x64/$REV/chrome-linux.zip` - `$CHROMIUM_DOWNLOAD_HOST` describes `downloadHost` argument
+    -   Example: If we run `dockerSetChromiumConfig({downloadHost: 'https://internal.service.com, revision: 99999})`, it means that Chromium snapshot will be downloaded from _https://internal.service.com/chromium-browser-snapshots/Linux_x64/99999/chrome-linux.zip_
+
+-   `useClosestUbuntuMirror: boolean`
+    -   _Optional_
+    -   _Defaults_ to `process.env.USE_CLOSEST_UBUNTU_MIRROR || process.env.npm_config_use_closest_ubuntu_mirror || process.env.npm_package_config_use_closest_ubuntu_mirror|| false`
+    -   Flag for setting whether Ubuntu should use the default mirror for fetching packages, or pick the closest mirror depending on location
 
 ### dockerRunChromium
 
@@ -99,26 +103,25 @@ const webSocketUri = await dockerRunChromium({
     maxAttempts: 10,
     retryInterval: 5000
 });
-````
+```
 
 ##### Arguments
 
-- ``maxAttempts: number``
-    - *Optional*
-    - *Defaults* to 5
-    - Describes number of attempts to connect to Chromium in the launched container (sometimes it fails).
-    
-- ``retryInterval: number``
-    - *Optional*
-    - *Defaults* to 500
-    - Describes number of milliseconds between attempts to connect to Chromium in the launched container.
-    
+-   `maxAttempts: number`
+    -   _Optional_
+    -   _Defaults_ to 5
+    -   Describes number of attempts to connect to Chromium in the launched container (sometimes it fails).
+-   `retryInterval: number`
+    -   _Optional_
+    -   _Defaults_ to 500
+    -   Describes number of milliseconds between attempts to connect to Chromium in the launched container.
+
 ##### Returns
 
-- ``Promise<string>``
-    - Returns web socket URI to the launched Chromium in the container.
-    - By using this URI we can connect to Chromium and control it.
-    
+-   `Promise<string>`
+    -   Returns web socket URI to the launched Chromium in the container.
+    -   By using this URI we can connect to Chromium and control it.
+
 ### dockerShutdownChromium
 
 Function which is used to shutdown the launched Docker container.
@@ -131,6 +134,6 @@ await dockerShutdownChromium();
 
 ## Contributors
 
-- [**gidztech**](https://github.com/gidztech)
-- [*Fiszcz*](https://github.com/Fiszcz)
-- [*luiz*](https://github.com/luiz)
+-   [**gidztech**](https://github.com/gidztech)
+-   [_Fiszcz_](https://github.com/Fiszcz)
+-   [_luiz_](https://github.com/luiz)
