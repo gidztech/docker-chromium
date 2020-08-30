@@ -1,6 +1,6 @@
 {
     "name": "docker-chromium",
-    "version": "1.4.1",
+    "version": "1.4.2",
     "description": "Node library for controlling a Chromium instance running in a Docker container",
     "main": "lib/index.js",
     "scripts": {
