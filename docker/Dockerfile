@@ -19,7 +19,7 @@ RUN if [ "$USE_CLOSEST_UBUNTU_MIRROR" = "true" ]; then \
   echo "--> Using default Ubuntu mirror"; \
   fi
 
-RUN DEBIAN_FRONTEND="noninteractive" apt-get -qqy update && DEBIAN_FRONTEND="noninteractive" apt-get -qqy install libnss3 libnss3-tools libfontconfig1 wget ca-certificates apt-transport-https inotify-tools unzip \
+RUN DEBIAN_FRONTEND="noninteractive" apt-get -qqy update && DEBIAN_FRONTEND="noninteractive" apt-get -qqy install libnss3 libnss3-tools libxss1 libfontconfig1 wget ca-certificates apt-transport-https inotify-tools unzip \
   libpangocairo-1.0-0 libx11-xcb-dev libxcomposite-dev libxcursor1 libxdamage1 libxi6 libgconf-2-4 libxtst6 libcups2-dev \
   libxss-dev libxrandr-dev libasound2-dev libatk1.0-dev libgtk-3-dev ttf-ancient-fonts chromium-codecs-ffmpeg-extra libappindicator3-1 \
   iputils-ping iproute2 curl dumb-init \
