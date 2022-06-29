@@ -2,12 +2,18 @@ version: "3"
 
 services:
     chromium:
-        image: bertuz/docker-chromium:chromium93.0.4577-1.2.4-6
+        build:
+            context: ./
+            dockerfile: Dockerfile
         shm_size: "1gb"
         ports:
             - "9222:9222"
     chromium-image:
         image: ${DOCKER_CHROMIUM_IMAGE}
+        environment:
+            - DEBUG_ADDRESS
+            - DEBUG_PORT
+            - CHROMIUM_ADDITIONAL_ARGS
         shm_size: "1gb"
         ports:
             - "9222:9222"
