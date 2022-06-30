@@ -11,8 +11,6 @@ services:
     chromium-image:
         image: ${DOCKER_CHROMIUM_IMAGE}
         environment:
-            - DEBUG_ADDRESS
-            - DEBUG_PORT
             - CHROMIUM_ADDITIONAL_ARGS
         shm_size: "1gb"
         ports:
