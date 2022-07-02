@@ -22,7 +22,7 @@ describe('runContainer', () => {
 
     it('runs container with a specific image and provides websocket uri', async () => {
         dockerSetChromiumConfig({
-            useImage: 'bertuz/docker-chromium:chromium103.0.5060.53-test6',
+            useImage: 'bertuz/docker-chromium:chromium103.0.5060.53',
             flags: [' -–ignore-certificate-errors'],
             revision: 754306
         });
