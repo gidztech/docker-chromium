@@ -1,9 +1,17 @@
 version: "3"
+
 services:
     chromium:
         build:
             context: ./
             dockerfile: Dockerfile
+        shm_size: "1gb"
+        ports:
+            - "9222:9222"
+    chromium-image:
+        image: ${DOCKER_CHROMIUM_IMAGE}
+        environment:
+            - CHROMIUM_ADDITIONAL_ARGS
         shm_size: "1gb"
         ports:
             - "9222:9222"
