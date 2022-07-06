@@ -3,6 +3,7 @@ const {
     dockerRunChromium,
     dockerShutdownChromium
 } = require('../../lib/index');
+const path = require('path');
 
 describe('runContainer', () => {
     afterAll(async () => {
@@ -20,9 +21,12 @@ describe('runContainer', () => {
         expect(webSocketUri).toContain('ws://');
     }, 300000);
 
-    it('runs container with a specific image and provides websocket uri', async () => {
+    it('runs container with a specific dockerfile and provides websocket uri', async () => {
         dockerSetChromiumConfig({
-            useImage: 'bertuz/docker-chromium:chromium103.0.5060.53',
+            useDockerBuild: {
+                dockerFile: 'Dockerfile',
+                contextPath: path.join(__dirname, '/dockerFiles')
+            },
             flags: [' -–ignore-certificate-errors'],
             revision: 754306
         });

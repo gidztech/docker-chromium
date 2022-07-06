@@ -47,8 +47,8 @@ const webSocketUri = await dockerRunChromium({
 
 Or by defining environment variables `DOCKER_CHROMIUM_MAX_ATTEMPTS` and `DOCKER_CHROMIUM_RETRY_INTERVAL`. Passing arguments to `dockerRunChromium` takes precedence over environment variables.
 
-### Usage with a specified image
-A specific image to be used can be set via the configuration or the environment variable. This is especially useful if you use an arm processor (Apple silicon) and the image you'll use
+### Use with a specified Dockerfile
+A specific dockerile to build a different container can be set via the configuration or the environment variable. This is especially useful if you use an arm processor (Apple silicon) and the image you'll use
 is platform compatible (more on this on [this repo](https://github.com/bertuz/docker-chromium-img))
 
 
@@ -61,7 +61,10 @@ const {
 
 (async () => {
     await dockerSetChromiumConfig({
-        image: 'bertuz/docker-chromium:chromium103.0.5060.53',
+        useDockerBuild: {
+            dockerFile: 'Dockerfile',
+            contextPath: path.join(__dirname, '/dockerFiles')
+        },
         // this property will be used when running the image
         flags: [' -–ignore-certificate-errors'],
         // this property will be ignored: the image is built already
@@ -73,7 +76,7 @@ const {
 })();
 ```
 
-Alternatively, you can set the `DOCKER_CHROMIUM_USE_IMAGE` environment variable, but the config's property will take precedence on it, if passed. 
+Alternatively, you can set the `DOCKER_CHROMIUM_USE_DOCKERFILE` and `DOCKER_CHROMIUM_USE_CONTEXT_PATH` environment variables, but the config's property will take precedence on it, if passed. 
 
 ## How it works
 
