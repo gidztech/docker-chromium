@@ -26,7 +26,7 @@ const {
 
 (async () => {
     await dockerSetChromiumConfig({
-        revision: "123456"
+        revision: "123456",
         flags: [' -–ignore-certificate-errors']
     });
     const webSocketUri = await dockerRunChromium();
@@ -46,6 +46,37 @@ const webSocketUri = await dockerRunChromium({
 ```
 
 Or by defining environment variables `DOCKER_CHROMIUM_MAX_ATTEMPTS` and `DOCKER_CHROMIUM_RETRY_INTERVAL`. Passing arguments to `dockerRunChromium` takes precedence over environment variables.
+
+### Use with a specified Dockerfile
+A specific dockerile to build a different container can be set via the configuration or the environment variable. This is especially useful if you use an arm processor (Apple silicon) and the image you'll use
+is platform compatible (more on this on [this repo](https://github.com/bertuz/docker-chromium-img))
+
+
+```javascript
+const {
+    dockerSetChromiumConfig,
+    dockerRunChromium,
+    dockerShutdownChromium
+} = require("docker-chromium");
+
+(async () => {
+    await dockerSetChromiumConfig({
+        useDockerBuild: {
+            dockerFile: 'Dockerfile',
+            contextPath: path.join(__dirname, '/dockerFiles')
+        },
+        // this property will be used when running the image
+        flags: [' -–ignore-certificate-errors'],
+        // this property will be ignored: the image is built already
+        revision: "123456",
+    });
+    const webSocketUri = await dockerRunChromium();
+    // do some other stuff...
+    await dockerShutdownChromium();
+})();
+```
+
+Alternatively, you can set the `DOCKER_CHROMIUM_USE_DOCKERFILE` and `DOCKER_CHROMIUM_USE_CONTEXT_PATH` environment variables, but the config's property will take precedence on it, if passed. 
 
 ## How it works
 
